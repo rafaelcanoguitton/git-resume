@@ -4,9 +4,36 @@ import * as vscode from "vscode";
 import { HelloWorldPanel } from "./HelloWorldPanel";
 import { gitStash, gitSave } from "./shell";
 import { SidebarProvider } from "./SidebarProvider";
+import type { AppRouter } from "../../api/src/index"; //i can't get this to work :(
+import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
+import fetch from "node-fetch";
+import AbortController from "abort-controller";
+import { authenticate } from "./authenticate";
+import { TokenManager } from "./TokenManager";
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
+
 export function activate(context: vscode.ExtensionContext) {
+  TokenManager.globalState = context.globalState;
+  //trpc stuff
+  // polyfill fetch & websocket
+  const globalAny = global as any;
+  globalAny.AbortController = AbortController;
+  globalAny.fetch = fetch;
+  const url = "http://localhost:3000/trpc";
+  const trpc = createTRPCProxyClient<AppRouter>({
+    links: [
+      httpBatchLink({
+        headers: () => {
+          return {
+            authorization: `Bearer ${TokenManager.getToken()}`,
+          };
+        },
+        url,
+      }),
+    ],
+    transformer: null,
+  });
   const sidebarProvider = new SidebarProvider(context.extensionUri);
   context.subscriptions.push(
     vscode.window.registerWebviewViewProvider(
@@ -14,13 +41,6 @@ export function activate(context: vscode.ExtensionContext) {
       sidebarProvider
     )
   );
-  // Use the console to output diagnostic information (console.log) and errors (console.error)
-  // This line of code will only be executed once when your extension is activated
-  console.log('Congratulations, your extension "git-resume" is now active!');
-
-  // The command has been defined in the package.json file
-  // Now provide the implementation of the command with registerCommand
-  // The commandId parameter must match the command field in package.json
 
   context.subscriptions.push(
     vscode.commands.registerCommand("git-resume.resume", async () => {
@@ -34,7 +54,10 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
     vscode.commands.registerCommand("git-resume.hello", () => {
       console.log("hello world");
-      HelloWorldPanel.createOrShow(context.extensionUri);
+      // HelloWorldPanel.createOrShow(context.extensionUri);
+      vscode.window.showInformationMessage(
+        "Token is " + TokenManager.getToken()
+      );
     })
   );
 
@@ -43,6 +66,24 @@ export function activate(context: vscode.ExtensionContext) {
       console.log("hello world");
       HelloWorldPanel.kill();
       HelloWorldPanel.createOrShow(context.extensionUri);
+    })
+  );
+
+  context.subscriptions.push(
+    // trpc test
+    vscode.commands.registerCommand("git-resume.trpc", async () => {
+      try {
+        const res = await trpc.getStashes.query();
+        console.log(res);
+      } catch (e) {
+        console.log(e);
+      }
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("git-resume.authenticate", () => {
+      authenticate();
     })
   );
 }

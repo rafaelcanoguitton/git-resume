@@ -4,15 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch" : "tsc -w",
-    "dev" : "nodemon dist/index.js"
+    "watch": "tsc -w",
+    "dev": "nodemon dist/index.js",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "postInstall": "prisma generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "4.12.0",
     "@trpc/server": "^10.18.0",
+    "@types/passport": "^1.0.12",
+    "@types/passport-github": "^1.1.7",
+    "@types/jsonwebtoken": "^9.0.1",
+    "dotenv": "^16.0.3",
+    "jsonwebtoken": "^9.0.0",
     "express": "^4.18.2",
+    "passport": "^0.6.0",
+    "passport-github": "^1.1.0",
+    "prisma": "^4.12.0",
+    "superjson": "^1.12.2",
+    "ts-node": "^10.9.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {
@@ -20,5 +34,8 @@
     "@types/node": "^18.15.11",
     "nodemon": "^2.0.22",
     "typescript": "^5.0.3"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
   }
 }
