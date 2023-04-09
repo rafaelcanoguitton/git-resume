@@ -105,7 +105,7 @@ const router = t.router({
       {
         clientID: process.env.GITHUB_CLIENT_ID,
         clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL: "http://127.0.0.1:3000/auth/github/callback",
+        callbackURL: `${process.env.API_URL}/auth/github/callback`,
       },
       async (_, __, profile, cb) => {
         let user = await prisma.user.findUnique({

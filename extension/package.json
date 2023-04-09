@@ -1,7 +1,9 @@
 {
   "name": "git-resume",
   "displayName": "git resume",
-  "description": "Resume work from separate computers using seemlessly and using git on the background!",
+  "description": "Resume work seemlessly and using git on the background!",
+  "publisher": "rafxar",
+  "repository": "https://github.com/rafaelcanoguitton/git-resume",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.75.0"
