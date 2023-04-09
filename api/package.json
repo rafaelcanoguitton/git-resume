@@ -8,7 +8,7 @@
     "dev": "nodemon dist/index.js",
     "build": "tsc",
     "start": "node dist/index.js",
-    "postInstall": "prisma generate"
+    "postInstall": "prisma generate && prisma db push"
   },
   "keywords": [],
   "author": "",

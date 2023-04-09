@@ -201,7 +201,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     // Use a nonce to only allow a specific script to be run.
     const nonce = getNonce();
-    let loggedIn = TokenManager.getToken() !== null;
+    let loggedIn = TokenManager.getToken() ? true : false;
     const isAWorkspaceFolder = vscode.workspace.workspaceFolders !== undefined;
 
     return `<!DOCTYPE html>
