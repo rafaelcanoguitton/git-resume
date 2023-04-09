@@ -4,7 +4,7 @@
   "description": "Resume work seemlessly and using git on the background!",
   "publisher": "rafxar",
   "repository": "https://github.com/rafaelcanoguitton/git-resume",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "engines": {
     "vscode": "^1.75.0"
   },

@@ -20,11 +20,13 @@
           stashes = [];
           break;
         case "logged-in":
-          loggedIn = true;
-          tsvscode.postMessage({
-            type: "get-stashes",
-            value: null,
-          });
+          loggedIn = message.value;
+          if (loggedIn) {
+            tsvscode.postMessage({
+              type: "get-stashes",
+              value: null,
+            });
+          }
           loading = true;
           break;
         case "stash":
