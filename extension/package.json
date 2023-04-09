@@ -100,6 +100,7 @@
     "@trpc/server": "^10.19.1",
     "abort-controller": "^3.0.0",
     "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.3",
     "node-fetch": "2",
     "polka": "^0.5.2",
     "superjson": "^1.12.2"

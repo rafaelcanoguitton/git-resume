@@ -1,1 +1,2 @@
-export const apiBaseUrl = 'http://localhost:3000'
+require("dotenv").config();
+export const apiBaseUrl = process.env.API_URL;

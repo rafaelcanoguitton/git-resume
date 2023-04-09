@@ -9,6 +9,7 @@ import { authenticate } from "./authenticate";
 import { gitApply, gitDeleteLastStash, gitStash, gitSave } from "./shell";
 import * as CryptoJS from "crypto-js";
 import { TRPCError } from "@trpc/server";
+import { apiBaseUrl } from "./constants";
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
   //trpc stuff
@@ -35,7 +36,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       const globalAny = global as any;
       globalAny.AbortController = AbortController;
       globalAny.fetch = fetch;
-      const url = "http://localhost:3000/trpc";
+      const url = `${apiBaseUrl}/trpc`;
       const trpc = createTRPCProxyClient<AppRouter>({
         links: [
           httpBatchLink({

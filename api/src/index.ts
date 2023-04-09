@@ -135,6 +135,8 @@ const router = t.router({
     "/auth/github/callback",
     passport.authenticate("github", { session: false }),
     (req: any, res: any) => {
+      // This localhost is okay because the server we're trying to reach
+      // is indeed... local.
       res.redirect(`http://localhost:54321/auth/${req.user.accessToken}`);
     }
   );

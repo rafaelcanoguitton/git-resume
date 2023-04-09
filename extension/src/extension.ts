@@ -10,6 +10,7 @@ import fetch from "node-fetch";
 import AbortController from "abort-controller";
 import { authenticate } from "./authenticate";
 import { TokenManager } from "./TokenManager";
+import { apiBaseUrl } from "./constants";
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 
@@ -20,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
   const globalAny = global as any;
   globalAny.AbortController = AbortController;
   globalAny.fetch = fetch;
-  const url = "http://localhost:3000/trpc";
+  const url = `${apiBaseUrl}/trpc`;
   const trpc = createTRPCProxyClient<AppRouter>({
     links: [
       httpBatchLink({
