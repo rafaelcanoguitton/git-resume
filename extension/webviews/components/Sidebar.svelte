@@ -3,7 +3,7 @@
 
   let stashes = [];
   let loading = true;
-  let loggHacky = null;
+  let loggedIn = undefined;
   onMount(() => {
     window.addEventListener("message", (event) => {
       const message = event.data; // The JSON data our extension sent
@@ -16,11 +16,11 @@
           loading = false;
           break;
         case "logged-out":
-          loggHacky = false;
+          loggedIn = false;
           stashes = [];
           break;
         case "logged-in":
-          loggHacky = true;
+          loggedIn = true;
           tsvscode.postMessage({
             type: "get-stashes",
             value: null,
@@ -37,24 +37,20 @@
           break;
       }
     });
-    if (loggHacky !== null ? loggHacky : loggedIn) {
-      tsvscode.postMessage({
-        type: "get-stashes",
-        value: null,
-      });
-    } else {
-      loading = false;
-    }
+    tsvscode.postMessage({
+      type: "is-logged-in",
+      value: null,
+    });
   });
 </script>
 
 <!-- svelte-ignore missing-declaration -->
-{#if isAWorkspaceFolder && loading && (loggHacky !== null ? loggHacky : loggedIn)}
+{#if isAWorkspaceFolder && loading && loggedIn}
   <h2>Loading...</h2>
-{:else if isAWorkspaceFolder && stashes.length === 0 && (loggHacky !== null ? loggHacky : loggedIn)}
+{:else if isAWorkspaceFolder && stashes.length === 0 && loggedIn}
   <h2>No stashes yet...</h2>
 {:else if isAWorkspaceFolder}
-  {#each stashes as stash,index}
+  {#each stashes as stash, index}
     <div class="stash">
       <!-- svelte-ignore missing-declaration -->
       <button
@@ -67,7 +63,7 @@
         }}
       >
         <!-- conver timestamp -->
-        {index+1}: on {new Date(stash.timestamp)
+        {index + 1}: on {new Date(stash.timestamp)
           .toLocaleString()
           .split(",")[0]} at {new Date(stash.timestamp)
           .toLocaleString()
@@ -99,7 +95,7 @@
   <h2>Open a folder first</h2>
 {/if}
 <!-- svelte-ignore missing-declaration -->
-{#if isAWorkspaceFolder && loggHacky !== null ? loggHacky : loggedIn}
+{#if isAWorkspaceFolder && loggedIn}
   <button
     class="stash-button"
     on:click={() => {
@@ -114,7 +110,7 @@
 {/if}
 <!-- svelte-ignore missing-declaration -->
 <div class="login-container">
-  {#if loggHacky !== null ? loggHacky : loggedIn}
+  {#if loggedIn}
     <button
       class="logout-button"
       on:click={() => {
@@ -126,7 +122,7 @@
     >
       Logout
     </button>
-  {:else}
+  {:else if loggedIn !== undefined && !loggedIn}
     <button
       class="login-button"
       on:click={() => {

@@ -176,6 +176,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           } catch (err) {
             vscode.window.showErrorMessage(err.message);
           }
+          break;
+        }
+        case "is-logged-in": {
+          webviewView.webview.postMessage({
+            type: "logged-in",
+            value: TokenManager.getToken() ? true : false,
+          });
         }
       }
     });
@@ -201,7 +208,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
     // Use a nonce to only allow a specific script to be run.
     const nonce = getNonce();
-    let loggedIn = TokenManager.getToken() ? true : false;
     const isAWorkspaceFolder = vscode.workspace.workspaceFolders !== undefined;
 
     return `<!DOCTYPE html>
@@ -219,9 +225,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         <link href="${styleMainUri}" rel="stylesheet">
         <script nonce="${nonce}">
           const tsvscode = acquireVsCodeApi();
-          let loggedIn = ${loggedIn};
           const isAWorkspaceFolder = ${isAWorkspaceFolder};
-
         </script>
 			</head>
       <body>
