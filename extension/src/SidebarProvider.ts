@@ -81,16 +81,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           await authenticate();
           webviewView.webview.postMessage({
             type: "logged-in",
-            value: null,
+            value: TokenManager.getToken() ? true : false,
           });
           break;
         }
         case "logout": {
           TokenManager.setToken(null);
-          webviewView.webview.postMessage({
-            type: "logged-out",
-            value: null,
-          });
           break;
         }
         case "stash": {
