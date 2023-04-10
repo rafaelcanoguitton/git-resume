@@ -1,3 +1,4 @@
+<h1><img src="./extension/media/git-resume-icon.png" width="30" height="30"/> git-resume </h1>
 # git-resume
 
 ⏯️  Pause your current work and resume it later from the same or a different device without committing your work yet.
