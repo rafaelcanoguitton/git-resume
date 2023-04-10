@@ -1,5 +1,17 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  let messages = [
+    "git resume is very cool",
+    "have you created a stash today?",
+    "meow",
+    "don't forget to be in the same repo and branch!",
+  ];
+  import cowsay from "cowsay2";
+  import cows from "cowsay2/cows";
+  let output = cowsay.say(
+    messages[Math.floor(Math.random() * messages.length)],
+    { cow: cows.cat2 }
+  );
 
   let stashes = [];
   let loading = true;
@@ -156,6 +168,10 @@
     {/if}
   </div>
 {/if}
+
+<p style="user-select: none;white-space: pre-wrap;font-weight: bolder;">
+  {output}
+</p>
 
 <style>
   .login-container {

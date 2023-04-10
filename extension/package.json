@@ -4,7 +4,7 @@
   "description": "Resume work seemlessly and using git on the background!",
   "publisher": "rafxar",
   "repository": "https://github.com/rafaelcanoguitton/git-resume",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -80,6 +80,7 @@
     "@trpc/client": "^10.19.1",
     "@trpc/server": "^10.19.1",
     "abort-controller": "^3.0.0",
+    "cowsay2": "^2.0.4",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.3",
     "node-fetch": "2",

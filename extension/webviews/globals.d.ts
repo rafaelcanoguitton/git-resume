@@ -8,4 +8,5 @@ declare global {
 
   let loggedIn: boolean;
   const isAWorkspaceFolder: boolean;
+  const output: string;
 }
