@@ -4,7 +4,7 @@
   "description": "Resume work seemlessly and using git on the background!",
   "publisher": "rafxar",
   "repository": "https://github.com/rafaelcanoguitton/git-resume",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "engines": {
     "vscode": "^1.75.0"
   },
@@ -16,28 +16,7 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "git-resume.resume",
-        "title": "Resume work on another computer"
-      },
-      {
-        "command": "git-resume.hello",
-        "title": "Hello World"
-      },
-      {
-        "command": "git-resume.refresh",
-        "title": "Refresh"
-      },
-      {
-        "command": "git-resume.trpc",
-        "title": "TRPC"
-      },
-      {
-        "command": "git-resume.authenticate",
-        "title": "Authenticate"
-      }
-    ],
+    "commands": [],
     "viewsContainers": {
       "activitybar": [
         {
@@ -107,5 +86,6 @@
     "polka": "^0.5.2",
     "superjson": "^1.12.2"
   },
-  "icon": "media/git-resume-svg.png"
+  "icon": "media/git-resume-icon.png",
+  "license": "GPL-3.0"
 }

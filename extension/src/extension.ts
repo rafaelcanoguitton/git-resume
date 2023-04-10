@@ -1,8 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
-import { HelloWorldPanel } from "./HelloWorldPanel";
-import { gitStash, gitSave } from "./shell";
+import { gitSave, gitStash } from "./shell";
 import { SidebarProvider } from "./SidebarProvider";
 import type { AppRouter } from "../../api/src/index"; //i can't get this to work :(
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
@@ -41,51 +40,6 @@ export function activate(context: vscode.ExtensionContext) {
       "git-resume-sidebar",
       sidebarProvider
     )
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("git-resume.resume", async () => {
-      await gitStash();
-      await gitSave();
-      const patch = await gitSave();
-      //TODO
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("git-resume.hello", () => {
-      console.log("hello world");
-      // HelloWorldPanel.createOrShow(context.extensionUri);
-      vscode.window.showInformationMessage(
-        "Token is " + TokenManager.getToken()
-      );
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("git-resume.refresh", () => {
-      console.log("hello world");
-      HelloWorldPanel.kill();
-      HelloWorldPanel.createOrShow(context.extensionUri);
-    })
-  );
-
-  context.subscriptions.push(
-    // trpc test
-    vscode.commands.registerCommand("git-resume.trpc", async () => {
-      try {
-        const res = await trpc.getStashes.query();
-        console.log(res);
-      } catch (e) {
-        console.log(e);
-      }
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.commands.registerCommand("git-resume.authenticate", () => {
-      authenticate();
-    })
   );
 }
 

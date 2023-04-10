@@ -1,0 +1,9 @@
+{
+  "name": "git-resume",
+  "version": "0.0.8",
+  "workspaces": [
+    "api/","extension/"
+  ],
+  "dependencies": {},
+  "license": "GPL-3.0"
+}
