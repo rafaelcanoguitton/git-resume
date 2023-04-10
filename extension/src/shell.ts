@@ -1,13 +1,19 @@
 import * as cp from "child_process";
 import * as vscode from "vscode";
+let fs = require("fs");
+let path = require("path");
+
+const currentWorkingDirectory = () => {
+  const workspaceDirectory = vscode.workspace.workspaceFolders;
+  if (!workspaceDirectory) {
+    vscode.window.showErrorMessage("You need to open a workspace first!");
+    return;
+  }
+  return workspaceDirectory[0].uri.fsPath;
+};
 const execShell = (cmd: string) =>
   new Promise<string>((resolve, reject) => {
-    const workspaceDirectory = vscode.workspace.workspaceFolders;
-    if (!workspaceDirectory) {
-      vscode.window.showErrorMessage("You need to open a workspace first!");
-      return;
-    }
-    cp.exec(cmd, { cwd: workspaceDirectory[0].uri.fsPath }, (err, out) => {
+    cp.exec(cmd, { cwd: currentWorkingDirectory() }, (err, out) => {
       if (err) {
         err.message += out;
         return reject(err);
@@ -81,9 +87,10 @@ export const gitSave = async () => {
 
 export const gitApply = async (stash: string) => {
   try {
-    await execShell(`echo "${stash}" > temp_patch.patch`);
+    await createPatchFile(stash);
     await execShell("git apply -3 temp_patch.patch");
   } catch (error) {
+    console.log(error);
     if (
       error.message.includes("does not match index") ||
       error.message.includes("does not exist in index")
@@ -112,7 +119,7 @@ export const gitApply = async (stash: string) => {
     }
     throw new Error(error.message);
   } finally {
-    await execShell("rm temp_patch.patch");
+    await removePatchFile();
   }
 };
 
@@ -122,4 +129,27 @@ export const gitDeleteLastStash = async () => {
   } catch (error) {
     vscode.window.showErrorMessage("Something went wrong");
   }
+};
+
+export const createPatchFile = async (content: string) => {
+  fs.writeFile(
+    path.join(currentWorkingDirectory(), "temp_patch.patch"),
+    content,
+    function (err: any) {
+      if (err) {
+        throw new Error(err);
+      }
+    }
+  );
+};
+
+export const removePatchFile = async () => {
+  fs.unlink(
+    path.join(currentWorkingDirectory(), "temp_patch.patch"),
+    function (err: any) {
+      if (err) {
+        throw new Error(err);
+      }
+    }
+  );
 };
