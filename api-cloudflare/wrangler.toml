@@ -1,0 +1,57 @@
+name = "api-cloudflare"
+main = "src/index.ts"
+compatibility_date = "2024-11-16"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "git-resume"
+database_id = "4423a156-d9b9-4a80-8c90-ebaa81329078"
+migrations_dir = "drizzle"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "git-resume"
+preview_bucket_name = "git-resume-preview"
+
+[[kv_namespaces]]
+binding = "FILE_COUNT"
+id = "7a3e05c9c2bc40c9ab48d4bb1407201d"
+
+[[kv_namespaces]]
+binding = "STASH_LIST"
+id = "0a616fccde9a47a7861747fcfb82222c"
+
+[vars]
+BUCKET_NAME = "git-resume"
+
+[env]
+[[env.vars]]
+ACCESS_KEY = "${ACCESS_KEY}"
+ACCESS_SECRET = "${ACCESS_SECRET}"
+ACCOUNT_ID = "${ACCOUNT_ID}"
+
+# compatibility_flags = [ "nodejs_compat" ]
+
+# [vars]
+# MY_VAR = "my-variable"
+
+# [[kv_namespaces]]
+# binding = "MY_KV_NAMESPACE"
+# id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# [[r2_buckets]]
+# binding = "MY_BUCKET"
+# bucket_name = "my-bucket"
+
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "my-database"
+# database_id = ""
+
+# [ai]
+# binding = "AI"
+
+# [observability]
+# enabled = true
+# head_sampling_rate = 1

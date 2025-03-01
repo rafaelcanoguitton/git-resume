@@ -2,8 +2,11 @@
   "name": "git-resume",
   "version": "0.0.10",
   "workspaces": [
-    "api/","extension/"
+    "api/",
+    "extension/"
   ],
-  "dependencies": {},
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "passport": "^0.7.0"
+  }
 }
